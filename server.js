@@ -104,7 +104,6 @@ function getTrs(tag, objArray) {
     let values = Object.values(element)
 
     values.forEach(value => {
-      console.log(`${value}`.slice(0, 5))
       if (`${value}`.slice(0, 5) === 'https') {
         value = `<img src="${value}" alt="product image" width="100" height="100">`
       }
