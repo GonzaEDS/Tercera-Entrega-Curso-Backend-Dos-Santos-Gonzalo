@@ -11,8 +11,8 @@ const tableHeaders = [
     fourth: 'Id'
   }
 ]
+
 const app = express()
-let count = 0
 
 app.get('/', (_req, res) => {
   res.send({
@@ -51,40 +51,64 @@ const service = app.listen(PORT, () => {
 
 function pageWithTable(products) {
   const styles = `<style>
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: bisque;
-  }
-  table {
-    background: gainsboro;
-    color: black;
-  }
-  tbody tr:nth-child(odd) {
-    background-color: #d2c6c6;
-  }
-  thead {
-    text-transform: uppercase;
-    font-family: monospace;
-}
-  table, tr, th, td {
-    border-collapse: collapse;
-    border: 2px solid black;
-    padding: 1em;
-    font-size: 1.5rem;
-    text-align:center;
-  }
-  td {
-    font-family: sans-serif;
-}
-  img {
-    filter: drop-shadow(1px 1px 1px black);
-}
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: bisque;
+      padding: 2rem;
+      max-width:100vw;
+      
+    }
+    table {
+      background: gainsboro;
+      color: black;
+    }
+    tbody tr:nth-child(odd) {
+      background-color: #d2c6c6;
+    }
+    thead {
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+    table, tr, th, td {
+      border-collapse: collapse;
+      border: 2px solid black;
+      padding: 1em;
+      font-size: 1.5rem;
+      text-align:center;
+    }
+    td {
+      font-family: sans-serif;
+    }
+    img {
+      filter: drop-shadow(1px 1px 1px black);
+    }
+    @media only screen and (max-width: 500px) {
+    
+      table {
+    
+      }
+      table, tr, th, td {
+          border-collapse: collapse;
+          padding: 0.7em;
+          font-size: 1rem;
+          text-align:center;
+        }
+    }
+    
   </style>`
 
+  const head = `
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+${styles}
+
+</head> `
+
   const page = ` 
-      ${styles}
+      ${head}
       <table>
       <thead>
         ${getTrs('th', tableHeaders)}
