@@ -3,6 +3,14 @@ require('dotenv').config()
 const Contenedor = require('./contenedor')
 
 const products = new Contenedor('products.txt')
+const tableHeaders = [
+  {
+    first: 'Name',
+    second: 'Price',
+    third: 'Thumbnail',
+    fourth: 'Id'
+  }
+]
 const app = express()
 let count = 0
 
@@ -14,17 +22,19 @@ app.get('/', (_req, res) => {
 })
 
 app.get('/productos', async (_req, res) => {
-  const productsAll = await products.getAll()
-
-  res.send(`${JSON.stringify(productsAll, null, 2)}`)
+  const productsAll = await products.getAll(),
+    page = pageWithTable(productsAll)
+  res.send(page)
 })
 
 app.get('/productoRandom', async (_req, res) => {
   const productsAll = await products.getAll(),
     prodsAmount = productsAll.length,
-    randomIndex = Math.floor(Math.random() * prodsAmount)
-
-  res.send(`${JSON.stringify(productsAll[randomIndex], null, 2)}`)
+    randomIndex = Math.floor(Math.random() * prodsAmount),
+    product = []
+  product.push(productsAll[randomIndex])
+  const page = pageWithTable(product)
+  res.send(page)
 })
 
 app.get('/ping', (_req, res) => {
@@ -36,3 +46,71 @@ const PORT = process.env.PORT || 3000
 const service = app.listen(PORT, () => {
   console.info(`Server Up and running on port ${PORT}`)
 })
+
+// Helpers
+
+function pageWithTable(products) {
+  const styles = `<style>
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: bisque;
+  }
+  table {
+    background: gainsboro;
+    color: black;
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #d2c6c6;
+  }
+  thead {
+    text-transform: uppercase;
+    font-family: monospace;
+}
+  table, tr, th, td {
+    border-collapse: collapse;
+    border: 2px solid black;
+    padding: 1em;
+    font-size: 1.5rem;
+    text-align:center;
+  }
+  td {
+    font-family: sans-serif;
+}
+  img {
+    filter: drop-shadow(1px 1px 1px black);
+}
+  </style>`
+
+  const page = ` 
+      ${styles}
+      <table>
+      <thead>
+        ${getTrs('th', tableHeaders)}
+      </thead>
+      <tbody>
+        ${getTrs('td', products)}
+      </tbody>
+      </table>`
+  return page
+}
+
+function getTrs(tag, objArray) {
+  let trs = ''
+
+  objArray.forEach(element => {
+    let tds = ''
+    let values = Object.values(element)
+
+    values.forEach(value => {
+      console.log(`${value}`.slice(0, 5))
+      if (`${value}`.slice(0, 5) === 'https') {
+        value = `<img src="${value}" alt="product image" width="100" height="100">`
+      }
+      tds = tds.concat(' ', `<${tag}>${value}</${tag}>`)
+    })
+    trs = trs.concat(' ', `<tr>${tds}</tr>`)
+  })
+  return trs
+}

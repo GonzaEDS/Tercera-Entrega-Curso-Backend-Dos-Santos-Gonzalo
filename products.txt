@@ -1,17 +1,20 @@
 [
   {
-    "name": "firstProd",
-    "id": 1,
-    "price": 1000
+    "name": "Regla",
+    "price": 23.34,
+    "thumbnail": "https://cdn4.iconfinder.com/data/icons/education-759/2050/Education_flat-16-1024.png",
+    "id": 1
   },
   {
-    "name": "secondProd",
-    "id": 2,
-    "price": 500
+    "name": "Calculadora",
+    "price": 134.45,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/icons-for-a-site-1/64/advantage_calculator-1024.png",
+    "id": 2
   },
   {
-    "name": "thirdProd",
-    "id": 3,
-    "price": 200
+    "name": "Globo terraqueo",
+    "price": 200.5,
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-1024.png",
+    "id": 3
   }
 ]
